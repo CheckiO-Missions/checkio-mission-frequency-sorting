@@ -2,9 +2,9 @@
 
 <p>
     Sort the given {% if is_js %}Array{% else %}list{% endif %} so that its
-    elements end up in the decreasing frequency order, that is, the number of
-    times they appear in elements. If two elements have the same frequency, they
-    should end up according to their natural order. For example: [5, 2, 4, 1, 1, 1, 3] ==> [1, 1, 1, 2, 3, 4, 5].
+    elements should be grouped and those groups end up in the decreasing frequency order, that is, the number of
+    times element appears in the {% if is_js %}Array{% else %}list{% endif %}. If two elements have the same frequency, their groups
+    should end up according to the natural order of elements. For example: [5, 2, 4, 1, 1, 1, 3] ==> [1, 1, 1, 2, 3, 4, 5].
 </p>
 <p>
     If you want to practice more with the similar case, try
