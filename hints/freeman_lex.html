@@ -108,6 +108,7 @@ result = sorted(numbers, key=lambda i: -numbers.count(i), i)
             One small step about code remains: sorting function should be a single object, but now
         you have two - <b class="code">-numbers.count(i)</b> and <b class="code">i</b>. To make it works, join them in a tuple or list. Don't forget to wrap the code into function expression (with type hints) and return the expressions you built. So, here is the solution:
     </p>
+        <div class="spoiler">
         <pre class="brush: python">
 from collections.abc import Iterable 
 
@@ -118,6 +119,7 @@ def frequency_sorting(numbers: list[int]) -> Iterable[int]:
 
     return result
         </pre>
+        </div>
     </div>
 </div>
 <div class="question-answer">
@@ -132,6 +134,7 @@ def frequency_sorting(numbers: list[int]) -> Iterable[int]:
         <p>
             In this solution there are two steps: first to sort <b class="code">numbers</b> ascending, then descending by frequency. Pay attention to the argument <b class="code">reverse</b> which is <b class="code">False</b> by default and the absence of <b class="code">lambda</b> expression.
         </p>
+        <div class="spoiler">
         <pre class="brush: python">
 from collections.abc import Iterable 
 
@@ -142,9 +145,11 @@ def frequency_sorting(numbers: list[int]) -> Iterable[int]:
 
     return result
         </pre>
+        </div>
         <p>
             <b class="code">Counter</b> class from <b class="code">collections</b> module creates a dictionary with unique elements as keys and their frequency as values. Pairs ordered by natural order, since you sort the list before. So you take all elements, sort them by key - frequency of each element (<b class="code">c.get</b> gets for each element its value from <b class="code">c</b>) with descending order.
         </p>
+        <div class="spoiler">
         <pre class="brush: python">
 from collections.abc import Iterable
 from collections import Counter
@@ -157,6 +162,7 @@ def frequency_sorting(numbers: list[int]) -> Iterable[int]:
 
     return result
         </pre>
+        </div>
         <p><b>
             Click "Best solutions" at mission menu and see a lot of other interesting solutions!
     </b></p>
