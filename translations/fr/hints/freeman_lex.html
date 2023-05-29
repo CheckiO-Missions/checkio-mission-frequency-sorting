@@ -1,0 +1,182 @@
+<body data-author="freeman_lex">
+<div class="question-answer">
+    <div class="question">
+        <p>
+            Je n'ai aucune idée de la manière de commencer à résoudre cette mission.
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            💡 L'idée générale est simple: définir correctement la règle de tri et l'utiliser comme clé dans la fonction de tri.
+        </p>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            Par quoi dois-je commencer?
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            Utilisez la fonction intégrée <a target="_blank" href="https://www.w3schools.com/python/ref_func_sorted.asp">sorted()</a>. Elle renvoie une liste triée ou un autre Iterable et possède l'argument <b class="code">key</b>, qui définit la règle de tri (c'est exactement ce dont vous avez besoin).
+        </p>
+        <pre class="brush: python">
+result = sorted(numbers, key=...)        
+        </pre>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            D'accord. Que faire ensuite?
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            <b class="code">Key</b>  l'argument (règle de tri) est une fonction qui compare les éléments en fonction d'un certain paramètre et choisit l'élément qui passe en premier. Pour définir une fonction spécifique, utilisez l'expression <b class="code">lambda</b> (fonction anonyme), qui prend chaque élément de la liste.
+        </p>
+        <pre class="brush: python">
+result = sorted(numbers, key=lambda i: ...)        
+        </pre>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            Aidez-moi à définir une règle de tri.
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            La description indique que vous devez trier les éléments en fonction de leur fréquence (nombre d'occurrences dans la liste). Une façon courante de compter le nombre d'occurrences d'un même élément dans la liste est d'utiliser sa méthode <a target="_blank" href="https://www.w3schools.com/python/ref_list_count.asp">list.count()</a>.
+        </p>
+        <pre class="brush: python">
+numbers = [1, 2, 3, 2]
+print(numbers.count(3))
+        </pre>
+        <div class="output">
+            <p>Résultat:</p>
+            <pre>
+1</pre>
+        </div>
+        <p>
+            Vous devez donc utiliser cette méthode de tri.
+        </p>
+        <pre class="brush: python">
+result = sorted(numbers, key=lambda i: numbers.count(i))        
+        </pre> 
+        <p>
+            L'ordre de tri par défaut est croissant, c'est-à-dire qu'un élément ayant 1 occurrence passera avant celui qui en a 2
+        mais d'après la description, c'est l'inverse qu'il vous faut: l'élément le plus fréquent doit être placé en premier 
+        l'inverse - l'élément le plus fréquent doit passer en premier. Pour cela, faites une chose aussi simple
+        mais délicate - utilisez le résultat de <b class="code">count</b> avec un moins! Ainsi, l'élément ayant une fréquence de
+        ainsi, l'élément dont la fréquence est "-2" passe avant celui dont la fréquence est "-1", puisque -2 est inférieur à -1.
+    </p>
+        <pre class="brush: python">
+result = sorted(numbers, key=lambda element: -numbers.count(element))        
+        </pre> 
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            Mais que faire lorsque deux éléments ou plus ont la même fréquence?
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            La description de la mission indique que vous devez les trier par ordre naturel.
+        Il vous suffit donc de placer <b class="code">i</b> comme deuxième paramètre de tri
+        paramètre de tri. Puisque le plus petit élément doit être placé avant le plus grand (ordre croissant), il n'est pas nécessaire d'utiliser le signe moins
+        (ordre croissant), il n'est pas nécessaire d'utiliser le moins, l'ordre de tri par défaut convient.
+    </p>
+        <pre class="brush: python">
+result = sorted(numbers, key=lambda i: -numbers.count(i), i)
+        </pre>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            Alors, à quoi devrait ressembler ma solution finale?
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            Il reste une petite étape à franchir en ce qui concerne le code: la fonction de tri devrait être un seul objet, mais maintenant vous en avez deux -  et  
+        vous en avez deux - <b class="code">-numbers.count(i)</b> et <b class="code">i</b>. Pour que cela fonctionne, joignez-les dans un tuple ou une liste. N'oubliez pas d'envelopper le code dans une expression de fonction (avec des indications de type) et de renvoyer les expressions que vous avez construites. Voici donc la solution:
+    </p>
+        <div class="spoiler">
+        <pre class="brush: python">
+from collections.abc import Iterable 
+
+
+def frequency_sorting(numbers: list[int]) -> Iterable[int]:
+
+    result = sorted(numbers, key=lambda i: (-numbers.count(i), i))
+
+    return result
+        </pre>
+        </div>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            Montrez-moi d'autres solutions!<br />
+            parce que je veux être une vraie 🥇 Python Ninnjaa!
+        </p>
+    </div>
+    <div class="answer">
+        <p>Bien sûr, prenez-le!</p>
+        <p>
+            Dans cette solution, il y a deux étapes: d'abord trier <b class="code">numbers</b> en ordre croissant, puis en ordre décroissant par fréquence. Faites attention à l'argument <b class="code">reverse</b> qui est <b class="code">False</b> par défaut et à l'absence de l'expression <b class="code">lambda</b>.
+        </p>
+        <div class="spoiler">
+        <pre class="brush: python">
+from collections.abc import Iterable 
+
+
+def frequency_sorting(numbers: list[int]) -> Iterable[int]:
+
+    result = sorted(sorted(numbers), key=numbers.count, reverse=True)
+
+    return result
+        </pre>
+        </div>
+        <p>
+            <b class="code">Counter</b> la classe du module <b class="code">collections</b> crée un dictionnaire avec des éléments uniques comme clés et leur fréquence comme valeurs. Les paires sont classées par ordre naturel, puisque vous avez déjà trié la liste. Vous prenez donc tous les éléments, vous les triez par clé - fréquence de chaque élément (<b class="code">c.get</b> reçoit pour chaque élément sa valeur de <b class="code">c</b>) dans l'ordre décroissant.
+        </p>
+        <div class="spoiler">
+        <pre class="brush: python">
+from collections.abc import Iterable
+from collections import Counter
+
+
+def frequency_sorting(numbers: list[int]) -> Iterable[int]:
+
+    c = Counter(sorted(numbers))
+    result = sorted(c.elements(), key=c.get, reverse = True)
+
+    return result
+        </pre>
+        </div>
+        <p><b>
+            Click "Best solutions" at mission menu and see a lot of other interesting solutions!
+    </b></p>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            Merci beaucoup! Je comprends mieux maintenant! Tout fonctionne bien!
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            👍 Heureux de l'apprendre!
+        </p>
+    </div>
+</div>
+</body>
