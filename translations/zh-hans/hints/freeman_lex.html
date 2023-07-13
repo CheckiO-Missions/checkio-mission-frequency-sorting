@@ -1,0 +1,180 @@
+<body data-author="freeman_lex">
+<div class="question-answer">
+    <div class="question">
+        <p>
+            我不知道如何开始解决这项任务。
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            💡 总体思路很简单--正确定义排序规则，并将其作为排序功能的关键。
+        </p>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            我应该从什么开始？
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            使用内置的<a target="_blank" href="https://www.w3schools.com/python/ref_func_sorted.asp">sorted()</a> 函数。它返回已排序的列表或另一个Iterable，并且有<b class="code">key</b> 参数，该参数定义了排序规则（这正是你需要的）。
+        </p>
+        <pre class="brush: python">
+result = sorted(numbers, key=...)        
+        </pre>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            好的。下一步做什么？
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            <b class="code">Key</b>  参数（排序规则）是一个函数，它通过一些参数比较元素并选择哪个元素排在前面。要定义特定函数，请使用<b class="code">lambda</b> 表达式（匿名函数），该表达式获取列表中的每个元素。
+        </p>
+        <pre class="brush: python">
+result = sorted(numbers, key=lambda i: ...)        
+        </pre>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            请帮我定义排序规则。
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            描述说，您需要根据元素的频率--在列表中出现的次数--对元素进行排序。计算列表中相同元素出现次数的常用方法是使用<a target="_blank" href="https://www.w3schools.com/python/ref_list_count.asp">list.count()</a> 方法。
+        </p>
+        <pre class="brush: python">
+numbers = [1, 2, 3, 2]
+print(numbers.count(3))
+        </pre>
+        <div class="output">
+            <p>输出：</p>
+            <pre>
+1</pre>
+        </div>
+        <p>
+            因此，您需要使用该方法进行排序。
+        </p>
+        <pre class="brush: python">
+result = sorted(numbers, key=lambda i: numbers.count(i))        
+        </pre> 
+        <p>
+            默认的排序顺序是递增的，所以出现1次的元素会排在出现2次的元素之前。
+        但根据描述，您需要相反的排序方式。 
+        相反--出现频率更高的元素应该排在前面。要做到这一点，可以做这样一件简单
+        而又棘手的事情--使用<b class="code">count</b> 的减号结果！因此，频率为
+        频率为"-2 "的元素排在频率为"-1 "的元素之前，因为-2小于-1。
+    </p>
+        <pre class="brush: python">
+result = sorted(numbers, key=lambda element: -numbers.count(element))        
+        </pre> 
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            但是当两个或两个以上的元素频率相等时该怎么办呢？
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            根据任务描述，您需要按照自然顺序对它们进行排序。
+        因此，您只需将<b class="code">i</b> 本身作为第二个排序参数。
+        参数。由于较小的元素应该比较大的元素排在前面（升序
+        (升序），因此无需使用减号，默认排序即可。
+    </p>
+        <pre class="brush: python">
+result = sorted(numbers, key=lambda i: -numbers.count(i), i)
+        </pre>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            那么，我的最终解决方案应该是怎样的呢？
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            还剩下一小步代码：排序功能应该是一个单独的对象，但现在有两个
+        你有两个对象 -<b class="code">-numbers.count(i)</b> 和<b class="code">i</b> 。为了使其工作，将它们连接成一个元组或列表。不要忘记将代码封装为函数表达式（带有类型提示），并返回您构建的表达式。下面是解决方案：
+    </p>
+        <div class="spoiler">
+        <pre class="brush: python">
+from collections.abc import Iterable 
+
+
+def frequency_sorting(numbers: list[int]) -> Iterable[int]:
+
+    result = sorted(numbers, key=lambda i: (-numbers.count(i), i))
+
+    return result
+        </pre>
+        </div>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            告诉我更多的解决方案！<br />
+            因为我想成为一个真正的 🥇 Python Ninnjaa！
+        </p>
+    </div>
+    <div class="answer">
+        <p>当然，抓住它！</p>
+        <p>
+            在这个解决方案中有两个步骤：首先对<b class="code">numbers</b> 升序排序，然后按频率降序排序。注意参数<b class="code">reverse</b> ，默认为<b class="code">False</b> ，没有<b class="code">lambda</b> 表达式。
+        </p>
+        <div class="spoiler">
+        <pre class="brush: python">
+from collections.abc import Iterable 
+
+
+def frequency_sorting(numbers: list[int]) -> Iterable[int]:
+
+    result = sorted(sorted(numbers), key=numbers.count, reverse=True)
+
+    return result
+        </pre>
+        </div>
+        <p>
+            <b class="code">Counter</b> 从<b class="code">collections</b> 模块的类创建一个字典，唯一元素作为键，它们的频率作为值。由于之前已经对列表进行了排序，所以数据对按照自然顺序排列。因此，您可以将所有元素，按照键-每个元素的频率（<b class="code">c.get</b> 从<b class="code">c</b> 获取每个元素的值）降序排序。
+        </p>
+        <div class="spoiler">
+        <pre class="brush: python">
+from collections.abc import Iterable
+from collections import Counter
+
+
+def frequency_sorting(numbers: list[int]) -> Iterable[int]:
+
+    c = Counter(sorted(numbers))
+    result = sorted(c.elements(), key=c.get, reverse = True)
+
+    return result
+        </pre>
+        </div>
+        <p>在任务菜单中点击<b>Best Solutions</b> ，可以看到很多其他有趣的解决方案！</p>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            谢谢！我现在知道并理解得更多了！一切正常！
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            很高兴听到这个消息！
+        </p>
+    </div>
+</div>
+</body>
